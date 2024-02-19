@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-grid-areas {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "section-logo section-title"
+    "section-logo section-date"
+    "section-description section-description"
+    "section-data section-data"
+    "section-contact section-contact";
+  gap: 2rem;
+}
+
+.section-logo {
+  grid-area: section-logo;
+  height: 100%;
+  place-self: center;
+}
+
+.section-title {
+  grid-area: section-title;
+}
+
+.section-date {
+  grid-area: section-date;
+}
+
+.section-description {
+  grid-area: section-description;
+}
+
+.section-data {
+  grid-area: section-data;
+}
+
+.section-contact {
+  grid-area: section-contact;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 100%;
+}
+
+@media (min-width: 512px) {
+  .section-contact {
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .custom-grid-areas {
+    grid-template-columns: 15% auto fit-content;
+    grid-template-areas:
+      "section-logo section-title section-date"
+      "section-logo section-description  section-description"
+      "section-logo section-data section-data"
+      "section-logo section-contact section-contact";
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  transition: background-color 5000s ease-in-out 0s;
+}
