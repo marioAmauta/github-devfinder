@@ -1,17 +1,29 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import { useFormState, useFormStatus } from "react-dom";
+import { searchAction } from "../lib/actions";
 import { SearchIcon } from "./Icons";
 
-export function SearchForm({ searchParam }: { searchParam: string }) {
-  async function searchAction(formData: FormData) {
-    "use server";
-
-    if (!formData.get("search")) redirect("/");
-
-    redirect(`/?user=${formData.get("search")}`);
-  }
+function SearchButton() {
+  const { pending } = useFormStatus();
 
   return (
-    <form action={searchAction} className="flex items-center justify-center gap-2 rounded-2xl bg-secondary-bg-light p-3 shadow dark:bg-secondary-bg-dark">
+    <button
+      type="submit"
+      disabled={pending}
+      className={`flex items-center justify-center gap-3 rounded-lg bg-custom-accent-color px-3 py-2 text-font-color-primary-dark ${pending ? "cursor-not-allowed opacity-50" : ""}`}
+    >
+      <span>Search</span>
+      {pending ? <span className="loading loading-spinner loading-xs" /> : null}
+    </button>
+  );
+}
+
+export function SearchForm({ searchParam }: { searchParam: string }) {
+  const [, formAction] = useFormState(searchAction, null);
+
+  return (
+    <form action={formAction} className="flex items-center justify-center gap-2 rounded-2xl bg-secondary-bg-light p-3 shadow dark:bg-secondary-bg-dark">
       <SearchIcon height="1.2rem" width="1.2rem" className="flex-shrink-0 fill-custom-accent-color" />
       <input
         name="search"
@@ -20,7 +32,7 @@ export function SearchForm({ searchParam }: { searchParam: string }) {
         className="search-input flex-grow truncate bg-transparent text-inherit outline-none placeholder:text-font-color-primary-light dark:placeholder:text-font-color-primary-dark sm:px-5"
         defaultValue={searchParam}
       />
-      <button className="rounded-lg bg-custom-accent-color px-3 py-2 text-font-color-primary-dark">Search</button>
+      <SearchButton />
     </form>
   );
 }
