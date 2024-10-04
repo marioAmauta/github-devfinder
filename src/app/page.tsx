@@ -1,22 +1,21 @@
-import { Suspense } from "react";
-import { UserCard } from "./components/UserCard";
-import { SearchForm } from "./components/SearchForm";
-import { UserCardSkeleton } from "./components/UserCardSkeleton";
+import React, { Suspense } from "react";
 
-export default async function HomePage({
-  searchParams
-}: {
-  searchParams: {
-    user?: string;
-  };
-}) {
-  const search = searchParams.user ?? "";
+import { UserCard } from "@/components/card-user";
+import { UserCardSkeleton } from "@/components/card-user-skeleton";
+import { SearchForm } from "@/components/search-form";
+
+type HomePageProps = {
+  searchParams: { q?: string };
+};
+
+export default function HomePage({ searchParams }: HomePageProps) {
+  const q = searchParams.q ?? "";
 
   return (
     <>
-      <SearchForm searchParam={search} />
-      <Suspense key={search} fallback={<UserCardSkeleton />}>
-        <UserCard searchQuery={search} />
+      <SearchForm searchParam={q} />
+      <Suspense key={q} fallback={<UserCardSkeleton />}>
+        <UserCard searchQuery={q} />
       </Suspense>
     </>
   );
