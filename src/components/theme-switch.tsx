@@ -1,19 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { ThemeSwitchSkeleton } from "./ThemeSwitchSkeleton";
-import { MoonIcon, SunIcon } from "./Icons";
+import { useEffect, useState } from "react";
+
+import { ThemeSwitchSkeleton } from "@/components/theme-switch-skeleton";
+import { MoonIcon, SunIcon } from "@/components/ui/icons";
 
 type IconType = "light" | "dark";
 
 function ThemeIcon({ iconType }: { iconType: IconType }) {
   if (iconType === "light") {
-    return <SunIcon height="1.2rem" width="1.2rem" className="fill-font-color-primary-dark" />;
+    return <SunIcon className="size-5 fill-foreground" />;
   }
 
   if (iconType === "dark") {
-    return <MoonIcon height="1.2rem" width="1.2rem" className="fill-font-color-primary-light" />;
+    return <MoonIcon className="size-5 fill-foreground" />;
   }
 }
 
@@ -32,7 +33,9 @@ export function ThemeSwitch() {
 
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return <ThemeSwitchSkeleton />;
+  if (!mounted) {
+    return <ThemeSwitchSkeleton />;
+  }
 
   if (resolvedTheme === "dark") {
     return <ThemeButton label="Light" iconType="light" onClick={() => setTheme("light")} />;
@@ -41,4 +44,6 @@ export function ThemeSwitch() {
   if (resolvedTheme === "light") {
     return <ThemeButton label="Dark" iconType="dark" onClick={() => setTheme("dark")} />;
   }
+
+  return null;
 }
